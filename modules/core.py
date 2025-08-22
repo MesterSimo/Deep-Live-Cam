@@ -14,10 +14,10 @@ import argparse
 import torch
 import onnxruntime
 import tensorflow
-
 import modules.globals
 import modules.metadata
 import modules.ui as ui
+from modules.utils import update_status
 from modules.processors.frame.core import get_frame_processors_modules
 from modules.utilities import has_image_extension, is_image, is_video, detect_fps, create_video, extract_frames, get_temp_frame_paths, restore_audio, create_temp, move_temp, clean_temp, normalize_output_path
 
@@ -168,12 +168,6 @@ def pre_check() -> bool:
         update_status('ffmpeg is not installed.')
         return False
     return True
-
-
-def update_status(message: str, scope: str = 'DLC.CORE') -> None:
-    print(f'[{scope}] {message}')
-    if not modules.globals.headless:
-        ui.update_status(message)
 
 def start() -> None:
     for frame_processor in get_frame_processors_modules(modules.globals.frame_processors):
